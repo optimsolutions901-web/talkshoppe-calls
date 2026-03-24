@@ -1,8 +1,737 @@
 <!DOCTYPE html>
-<html>
-<head><title>TalkShoppe Call Sheet</title></head>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Call Sheet</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+.container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+h1 { color: #333; margin-bottom: 10px; }
+.progress { background: #e0e0e0; border-radius: 20px; height: 30px; margin: 20px 0; }
+.progress-bar { background: #4CAF50; height: 100%; border-radius: 20px; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; min-width: 140px; }
+.group { margin: 30px 0; }
+.group-title { background: #2196F3; color: white; padding: 10px 15px; border-radius: 5px; font-size: 18px; font-weight: bold; margin-bottom: 15px; }
+.contact-card { background: #fafafa; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
+.contact-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+.contact-name { font-size: 20px; font-weight: bold; color: #333; }
+.call-button { background: #4CAF50; color: white; border: none; padding: 15px 25px; font-size: 16px; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
+.call-button:hover { background: #45a049; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+.form-group { display: flex; flex-direction: column; margin-bottom: 10px; }
+.form-group label { font-weight: bold; margin-bottom: 5px; color: #555; }
+.form-group select, .form-group textarea { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+.form-group textarea { resize: vertical; min-height: 70px; }
+.checkbox-group { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.checkbox-group input[type="checkbox"] { width: 18px; height: 18px; }
+.save-button { background: #2196F3; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 5px; cursor: pointer; margin-top: 5px; }
+.save-button:hover { background: #0b7dda; }
+.save-button:disabled { background: #ccc; cursor: not-allowed; }
+.success-message { background: #4CAF50; color: white; padding: 10px; border-radius: 5px; margin-top: 10px; display: none; }
+.error-message { background: #f44336; color: white; padding: 10px; border-radius: 5px; margin-top: 10px; display: none; }
+@media(max-width:600px){ .form-row { grid-template-columns: 1fr; } }
+</style>
+</head>
 <body>
-<h1>Call sheet loading...</h1>
-<p>This page will be updated automatically each Monday morning.</p>
+<div class="container">
+<h1>Weekly Call Sheet</h1>
+<div class="progress">
+<div class="progress-bar" id="progressBar" style="width:0%">0 / 15 Completed</div>
+</div>
+<div class="group">
+<div class="group-title">Sponsors (5)</div>
+<div class="contact-card" data-contact-id="137">
+    <div class="contact-header">
+      <div class="contact-name">Mark McLaurine</div>
+      <a href="tel:9012167782" class="call-button">📞 Call 901-216-7782</a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('137')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('137')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('137')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_137" onchange="autoSave('137')">
+      <label for="bad_137">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('137','Mark McLaurine','901-216-7782')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div><div class="contact-card" data-contact-id="169">
+    <div class="contact-header">
+      <div class="contact-name">Silvana Piadade</div>
+      <a href="tel:9016476661" class="call-button">📞 Call 901-647-6661</a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('169')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('169')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('169')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_169" onchange="autoSave('169')">
+      <label for="bad_169">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('169','Silvana Piadade','901-647-6661')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div><div class="contact-card" data-contact-id="172">
+    <div class="contact-header">
+      <div class="contact-name">Dr Rochelle Stevens</div>
+      <a href="tel:" class="call-button">📞 Call </a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('172')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('172')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('172')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_172" onchange="autoSave('172')">
+      <label for="bad_172">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('172','Dr Rochelle Stevens','')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div><div class="contact-card" data-contact-id="594">
+    <div class="contact-header">
+      <div class="contact-name">Lynn McDonald</div>
+      <a href="tel:9013723500" class="call-button">📞 Call 901-372-3500</a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('594')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('594')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('594')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_594" onchange="autoSave('594')">
+      <label for="bad_594">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('594','Lynn McDonald','901-372-3500')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div><div class="contact-card" data-contact-id="632">
+    <div class="contact-header">
+      <div class="contact-name">Chuck Bohannon</div>
+      <a href="tel:9016196436" class="call-button">📞 Call 901-619-6436</a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('632')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('632')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('632')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_632" onchange="autoSave('632')">
+      <label for="bad_632">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('632','Chuck Bohannon','901-619-6436')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div>
+</div>
+<div class="group">
+<div class="group-title">Recent Attendees (5)</div>
+<div class="contact-card" data-contact-id="2">
+    <div class="contact-header">
+      <div class="contact-name">Marlene Foster</div>
+      <a href="tel:" class="call-button">📞 Call </a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('2')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('2')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('2')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_2" onchange="autoSave('2')">
+      <label for="bad_2">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('2','Marlene Foster','')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div><div class="contact-card" data-contact-id="3">
+    <div class="contact-header">
+      <div class="contact-name">Sherry Robinson</div>
+      <a href="tel:" class="call-button">📞 Call </a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('3')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('3')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('3')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_3" onchange="autoSave('3')">
+      <label for="bad_3">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('3','Sherry Robinson','')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div><div class="contact-card" data-contact-id="10">
+    <div class="contact-header">
+      <div class="contact-name">Debbie Uren</div>
+      <a href="tel:8103386521" class="call-button">📞 Call 810-338-6521</a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('10')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('10')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('10')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_10" onchange="autoSave('10')">
+      <label for="bad_10">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('10','Debbie Uren','810-338-6521')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div><div class="contact-card" data-contact-id="13">
+    <div class="contact-header">
+      <div class="contact-name">Ali Smith</div>
+      <a href="tel:" class="call-button">📞 Call </a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('13')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('13')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('13')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_13" onchange="autoSave('13')">
+      <label for="bad_13">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('13','Ali Smith','')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div><div class="contact-card" data-contact-id="15">
+    <div class="contact-header">
+      <div class="contact-name">Ellis Rankin</div>
+      <a href="tel:" class="call-button">📞 Call </a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('15')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('15')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('15')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_15" onchange="autoSave('15')">
+      <label for="bad_15">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('15','Ellis Rankin','')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div>
+</div>
+<div class="group">
+<div class="group-title">Lapsed Members (5)</div>
+<div class="contact-card" data-contact-id="1">
+    <div class="contact-header">
+      <div class="contact-name">Mona Tobar</div>
+      <a href="tel:4695622818" class="call-button">📞 Call 469-562-2818</a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('1')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('1')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('1')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_1" onchange="autoSave('1')">
+      <label for="bad_1">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('1','Mona Tobar','469-562-2818')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div><div class="contact-card" data-contact-id="4">
+    <div class="contact-header">
+      <div class="contact-name">Jean Childress</div>
+      <a href="tel:" class="call-button">📞 Call </a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('4')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('4')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('4')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_4" onchange="autoSave('4')">
+      <label for="bad_4">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('4','Jean Childress','')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div><div class="contact-card" data-contact-id="5">
+    <div class="contact-header">
+      <div class="contact-name">Toby Trohkimoinen</div>
+      <a href="tel:9013563398" class="call-button">📞 Call 901-356-3398</a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('5')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('5')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('5')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_5" onchange="autoSave('5')">
+      <label for="bad_5">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('5','Toby Trohkimoinen','901-356-3398')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div><div class="contact-card" data-contact-id="6">
+    <div class="contact-header">
+      <div class="contact-name">Sally Baker</div>
+      <a href="tel:9012584775" class="call-button">📞 Call 901-258-4775</a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('6')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('6')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('6')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_6" onchange="autoSave('6')">
+      <label for="bad_6">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('6','Sally Baker','901-258-4775')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div><div class="contact-card" data-contact-id="7">
+    <div class="contact-header">
+      <div class="contact-name"></div>
+      <a href="tel:" class="call-button">📞 Call </a>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Outcome</label>
+        <select class="outcome" onchange="autoSave('7')">
+          <option value="">-- Select --</option>
+          <option>Reached - Interested</option>
+          <option>Reached - Not Interested</option>
+          <option>Reached - Call Back</option>
+          <option>No Answer</option>
+          <option>Voicemail Left</option>
+          <option>Wrong Number</option>
+          <option>Disconnected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interest Level</label>
+        <select class="interest" onchange="autoSave('7')">
+          <option value="">-- Select --</option>
+          <option>Hot</option>
+          <option>Warm</option>
+          <option>Cold</option>
+          <option>N/A</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('7')"></textarea>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" class="bad-number" id="bad_7" onchange="autoSave('7')">
+      <label for="bad_7">Bad number / wrong person</label>
+    </div>
+    <button class="save-button" onclick="saveCall('7','','')">Save this call</button>
+    <div class="success-message"></div>
+    <div class="error-message"></div>
+  </div>
+</div>
+</div>
+<script>
+const WEBHOOK_URL = 'https://optimsolutions.app.n8n.cloud/webhook/call-result';
+function autoSave(id) {
+  const card = document.querySelector('[data-contact-id="'+id+'"]');
+  localStorage.setItem('contact_'+id, JSON.stringify({
+    outcome: card.querySelector('.outcome').value,
+    interest: card.querySelector('.interest').value,
+    badNumber: card.querySelector('.bad-number').checked,
+    notes: card.querySelector('.notes').value
+  }));
+}
+function restoreData() {
+  document.querySelectorAll('.contact-card').forEach(card => {
+    const id = card.dataset.contactId;
+    const saved = localStorage.getItem('contact_'+id);
+    if (saved) {
+      const d = JSON.parse(saved);
+      card.querySelector('.outcome').value = d.outcome || '';
+      card.querySelector('.interest').value = d.interest || '';
+      card.querySelector('.bad-number').checked = d.badNumber || false;
+      card.querySelector('.notes').value = d.notes || '';
+    }
+  });
+  updateProgress();
+}
+async function saveCall(id, name, phone) {
+  const card = document.querySelector('[data-contact-id="'+id+'"]');
+  const btn = card.querySelector('.save-button');
+  const ok = card.querySelector('.success-message');
+  const err = card.querySelector('.error-message');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  ok.style.display = 'none'; err.style.display = 'none';
+  try {
+    const res = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        contactId: id, contactName: name, phone: phone,
+        outcome: card.querySelector('.outcome').value,
+        interest: card.querySelector('.interest').value,
+        badNumber: card.querySelector('.bad-number').checked,
+        notes: card.querySelector('.notes').value,
+        timestamp: new Date().toISOString()
+      })
+    });
+    if (res.ok) {
+      ok.style.display = 'block'; ok.textContent = 'Saved!';
+      localStorage.setItem('saved_'+id, 'true');
+      updateProgress();
+      setTimeout(()=>{ ok.style.display='none'; }, 3000);
+    } else throw new Error();
+  } catch(e) {
+    err.style.display = 'block'; err.textContent = 'Failed to save. Try again.';
+  } finally { btn.disabled = false; btn.textContent = 'Save this call'; }
+}
+function updateProgress() {
+  let saved = 0;
+  for (let i=0; i<localStorage.length; i++) {
+    if (localStorage.key(i).startsWith('saved_')) saved++;
+  }
+  const bar = document.getElementById('progressBar');
+  bar.style.width = (saved/15*100)+'%';
+  bar.textContent = saved+' / 15 Completed';
+}
+restoreData();
+</script>
 </body>
 </html>
