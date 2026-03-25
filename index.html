@@ -668,7 +668,8 @@ h1 { color: #333; margin-bottom: 10px; }
 </div>
 </div>
 <script>
-const WEBHOOK_URL = 'https://optimsolutions.app.n8n.cloud/webhook/call-result';
+const WEBHOOK_URL = 'https://optimsolutions.app.n8n.cloud/webhook/receive-call-results';
+const callerName = '';
 function autoSave(id) {
   const card = document.querySelector('[data-contact-id="'+id+'"]');
   localStorage.setItem('contact_'+id, JSON.stringify({
@@ -705,6 +706,7 @@ async function saveCall(id, name, phone) {
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
         contactId: id, contactName: name, phone: phone,
+        callerName: callerName,
         outcome: card.querySelector('.outcome').value,
         interest: card.querySelector('.interest').value,
         badNumber: card.querySelector('.bad-number').checked,
