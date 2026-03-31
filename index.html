@@ -3,753 +3,864 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Weekly Call Sheet</title>
+<title>TalkShoppe — Weekly Call Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
 <style>
+/* ============================================================
+   REPLACE THIS URL after deploying your Google Apps Script
+   ============================================================ */
+:root {
+  --api-url: 'https://script.google.com/macros/s/AKfycbxvGjaORN2swU5-q5YMhm143qq90rTkJ1ELF9XjAtCZgNYpX7R7oGN_xMtNKDWbqiqC/exec';
+  
+  --bg: #F4F1EC;
+  --surface: #FFFFFF;
+  --surface-muted: #F9F8F6;
+  --border: #E2DDD5;
+  --border-light: #EDE9E3;
+  --text: #2C2825;
+  --text-secondary: #6B6560;
+  --text-muted: #9B9590;
+  --accent: #C05A2C;
+  --accent-hover: #A84D25;
+  --accent-light: #FFF3ED;
+  --green: #2D8C5A;
+  --green-light: #EDFAF2;
+  --green-bg: #D4F0E0;
+  --blue: #3B6FC2;
+  --blue-light: #EDF3FC;
+  --yellow: #D4940A;
+  --yellow-light: #FFF9E6;
+  --red: #C23B3B;
+  --red-light: #FDEDED;
+  --completed-bg: #FAFAF8;
+  --completed-border: #EDEBE7;
+  --shadow-sm: 0 1px 3px rgba(44,40,37,0.06);
+  --shadow-md: 0 4px 12px rgba(44,40,37,0.08);
+  --shadow-lg: 0 8px 30px rgba(44,40,37,0.12);
+  --radius: 10px;
+  --radius-lg: 14px;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
-.container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-h1 { color: #333; margin-bottom: 5px; }
-.subtitle { color: #666; margin-bottom: 15px; font-size: 14px; }
-.progress { background: #e0e0e0; border-radius: 20px; height: 30px; margin: 20px 0; }
-.progress-bar { background: #4CAF50; height: 100%; border-radius: 20px; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; min-width: 140px; }
-.group { margin: 30px 0; }
-.group-title { background: #2196F3; color: white; padding: 10px 15px; border-radius: 5px; font-size: 18px; font-weight: bold; margin-bottom: 15px; }
-.contact-card { background: #fafafa; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
-.contact-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-.contact-name { font-size: 20px; font-weight: bold; color: #333; }
-.call-button { background: #4CAF50; color: white; border: none; padding: 15px 25px; font-size: 16px; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
-.call-button:hover { background: #45a049; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-.form-group { display: flex; flex-direction: column; margin-bottom: 10px; }
-.form-group label { font-weight: bold; margin-bottom: 5px; color: #555; }
-.form-group select, .form-group textarea { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-.form-group textarea { resize: vertical; min-height: 70px; }
-.checkbox-group { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-.checkbox-group input[type="checkbox"] { width: 18px; height: 18px; }
-.save-button { background: #2196F3; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 5px; cursor: pointer; margin-top: 5px; }
-.save-button:hover { background: #0b7dda; }
-.save-button:disabled { background: #ccc; cursor: not-allowed; }
-.success-message { background: #4CAF50; color: white; padding: 10px; border-radius: 5px; margin-top: 10px; display: none; }
-.error-message { background: #f44336; color: white; padding: 10px; border-radius: 5px; margin-top: 10px; display: none; }
-.warning-banner { background: #ff9800; color: white; padding: 12px 15px; border-radius: 5px; margin-bottom: 20px; font-weight: bold; }
-@media(max-width:600px){ .form-row { grid-template-columns: 1fr; } }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 24px 16px 80px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ---- Header ---- */
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.header h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.header .subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* ---- Progress ---- */
+.progress-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.progress-count {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.progress-track {
+  background: var(--border-light);
+  border-radius: 100px;
+  height: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, var(--green), #3AA86A);
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  min-width: 0;
+}
+
+/* ---- All Complete Banner ---- */
+.all-complete {
+  background: var(--green-light);
+  border: 1px solid var(--green-bg);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 28px;
+  display: none;
+}
+
+.all-complete.visible { display: block; }
+
+.all-complete .check-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.all-complete h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  color: var(--green);
+  margin-bottom: 4px;
+}
+
+.all-complete p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* ---- Group Sections ---- */
+.group {
+  margin-bottom: 28px;
+}
+
+.group-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text);
+  padding: 0 4px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.group-title .badge {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 100px;
+}
+
+/* ---- Contact Cards ---- */
+.contact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s ease;
+}
+
+.contact-card:hover:not(.completed) {
+  box-shadow: var(--shadow-md);
+  border-color: #D5CFC8;
+}
+
+/* ---- Completed State ---- */
+.contact-card.completed {
+  background: var(--completed-bg);
+  border-color: var(--completed-border);
+  box-shadow: none;
+}
+
+.contact-card.completed .contact-name {
+  color: var(--text-muted);
+}
+
+.contact-card.completed .call-button {
+  background: var(--border-light);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.contact-card.completed .form-area {
+  display: none;
+}
+
+.completed-summary {
+  display: none;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-light);
+  margin-top: 12px;
+}
+
+.contact-card.completed .completed-summary {
+  display: block;
+}
+
+.completed-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.completed-tag {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.completed-tag.interest-hot { background: var(--red-light); color: var(--red); }
+.completed-tag.interest-warm { background: var(--yellow-light); color: var(--yellow); }
+.completed-tag.interest-cold { background: var(--blue-light); color: var(--blue); }
+
+.completed-notes {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.edit-button {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--blue);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.edit-button:hover { color: var(--accent); }
+
+/* ---- Contact Header ---- */
+.contact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.contact-name {
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--text);
+}
+
+.completed-check {
+  display: none;
+  color: var(--green);
+  font-size: 16px;
+  margin-left: 6px;
+}
+
+.contact-card.completed .completed-check { display: inline; }
+
+.call-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent);
+  color: #FFF;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  transition: background 0.2s;
+}
+
+.call-button:hover { background: var(--accent-hover); }
+
+/* ---- Form Area ---- */
+.form-area { margin-top: 16px; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.form-group { display: flex; flex-direction: column; }
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group select,
+.form-group textarea {
+  font-family: 'DM Sans', sans-serif;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--surface-muted);
+  transition: border-color 0.2s;
+}
+
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #FFF;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 64px;
+  line-height: 1.5;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+
+.checkbox-group label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* ---- Save Button ---- */
+.save-button {
+  background: var(--green);
+  color: #FFF;
+  border: none;
+  padding: 11px 24px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.save-button:hover { background: #258050; }
+.save-button:active { transform: scale(0.98); }
+.save-button:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+
+.save-message {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin-top: 10px;
+  display: none;
+}
+
+.save-message.success {
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.save-message.error {
+  background: var(--red-light);
+  color: var(--red);
+}
+
+/* ---- Loading State ---- */
+.loading-screen {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-screen p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ---- Error State ---- */
+.error-screen {
+  text-align: center;
+  padding: 60px 20px;
+  display: none;
+}
+
+.error-screen h2 {
+  font-family: 'Fraunces', serif;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+
+.error-screen p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.retry-button {
+  background: var(--accent);
+  color: #FFF;
+  border: none;
+  padding: 10px 24px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ---- Warning ---- */
+.warning-banner {
+  background: var(--yellow-light);
+  border: 1px solid #F0DFA0;
+  color: #8A6D00;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  display: none;
+}
+
+@media (max-width: 600px) {
+  body { padding: 16px 12px 60px; }
+  .form-row { grid-template-columns: 1fr; }
+  .contact-header { flex-direction: column; align-items: flex-start; }
+  .call-button { width: 100%; justify-content: center; }
+  .header h1 { font-size: 24px; }
+}
 </style>
 </head>
 <body>
+
 <div class="container">
-<h1>Weekly Call Sheet</h1>
-<p class="subtitle">Week 13 &mdash; Caller: Unassigned</p>
+  <div class="header">
+    <h1>TalkShoppe Call Sheet</h1>
+    <p class="subtitle" id="subtitle">Loading...</p>
+  </div>
 
-<div class="progress">
-<div class="progress-bar" id="progressBar" style="width:0%">0 / 15 Completed</div>
-</div>
-<div class="group">
-<div class="group-title">Sponsors (5)</div>
-<div class="contact-card" data-contact-id="137">
-    <div class="contact-header">
-      <div class="contact-name">Mark McLaurine</div>
-      <a href="tel:901-216-7782" class="call-button">📞 Call 901-216-7782</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('137')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('137')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('137')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_137" onchange="autoSave('137')">
-      <label for="bad_137">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('137','Mark McLaurine','901-216-7782')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
-  </div><div class="contact-card" data-contact-id="169">
-    <div class="contact-header">
-      <div class="contact-name">Silvana Piadade</div>
-      <a href="tel:901-647-6661" class="call-button">📞 Call 901-647-6661</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('169')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('169')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('169')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_169" onchange="autoSave('169')">
-      <label for="bad_169">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('169','Silvana Piadade','901-647-6661')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
-  </div><div class="contact-card" data-contact-id="594">
-    <div class="contact-header">
-      <div class="contact-name">Lynn McDonald</div>
-      <a href="tel:901-372-3500" class="call-button">📞 Call 901-372-3500</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('594')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('594')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('594')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_594" onchange="autoSave('594')">
-      <label for="bad_594">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('594','Lynn McDonald','901-372-3500')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
-  </div><div class="contact-card" data-contact-id="632">
-    <div class="contact-header">
-      <div class="contact-name">Chuck Bohannon</div>
-      <a href="tel:901-619-6436" class="call-button">📞 Call 901-619-6436</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('632')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('632')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('632')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_632" onchange="autoSave('632')">
-      <label for="bad_632">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('632','Chuck Bohannon','901-619-6436')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
-  </div><div class="contact-card" data-contact-id="908">
-    <div class="contact-header">
-      <div class="contact-name">Mark Cardona</div>
-      <a href="tel:901-277-8976" class="call-button">📞 Call 901-277-8976</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('908')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('908')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('908')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_908" onchange="autoSave('908')">
-      <label for="bad_908">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('908','Mark Cardona','901-277-8976')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
+  <!-- Loading -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="spinner"></div>
+    <p>Loading this week's contacts...</p>
   </div>
-</div>
-<div class="group">
-<div class="group-title">Recent Attendees (5)</div>
-<div class="contact-card" data-contact-id="10">
-    <div class="contact-header">
-      <div class="contact-name">Debbie Uren</div>
-      <a href="tel:810-338-6521" class="call-button">📞 Call 810-338-6521</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('10')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('10')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('10')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_10" onchange="autoSave('10')">
-      <label for="bad_10">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('10','Debbie Uren','810-338-6521')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
-  </div><div class="contact-card" data-contact-id="40">
-    <div class="contact-header">
-      <div class="contact-name">Marion Holt</div>
-      <a href="tel:901-438-8870" class="call-button">📞 Call 901-438-8870</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('40')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('40')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('40')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_40" onchange="autoSave('40')">
-      <label for="bad_40">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('40','Marion Holt','901-438-8870')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
-  </div><div class="contact-card" data-contact-id="45">
-    <div class="contact-header">
-      <div class="contact-name">Nita  Black</div>
-      <a href="tel:901-413-1315" class="call-button">📞 Call 901-413-1315</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('45')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('45')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('45')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_45" onchange="autoSave('45')">
-      <label for="bad_45">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('45','Nita  Black','901-413-1315')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
-  </div><div class="contact-card" data-contact-id="51">
-    <div class="contact-header">
-      <div class="contact-name">Billy Nickol</div>
-      <a href="tel:901-233-1487" class="call-button">📞 Call 901-233-1487</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('51')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('51')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('51')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_51" onchange="autoSave('51')">
-      <label for="bad_51">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('51','Billy Nickol','901-233-1487')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
-  </div><div class="contact-card" data-contact-id="56">
-    <div class="contact-header">
-      <div class="contact-name">Jennifer Beech</div>
-      <a href="tel:901-268-4361" class="call-button">📞 Call 901-268-4361</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('56')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('56')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('56')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_56" onchange="autoSave('56')">
-      <label for="bad_56">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('56','Jennifer Beech','901-268-4361')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
+
+  <!-- Error -->
+  <div id="errorScreen" class="error-screen">
+    <h2>Couldn't load contacts</h2>
+    <p id="errorMessage">Something went wrong. Please try again.</p>
+    <button class="retry-button" onclick="loadContacts()">Try Again</button>
   </div>
-</div>
-<div class="group">
-<div class="group-title">Lapsed Members (5)</div>
-<div class="contact-card" data-contact-id="1">
-    <div class="contact-header">
-      <div class="contact-name">Mona Tobar</div>
-      <a href="tel:469-562-2818" class="call-button">📞 Call 469-562-2818</a>
+
+  <!-- Main Content (hidden until loaded) -->
+  <div id="mainContent" style="display:none;">
+    
+    <!-- All Complete Banner -->
+    <div id="allCompleteBanner" class="all-complete">
+      <div class="check-icon">&#10003;</div>
+      <h2>All Calls Completed!</h2>
+      <p>Great work this week. All contacts have been reached.</p>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('1')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
+    
+    <!-- Progress -->
+    <div class="progress-container">
+      <div class="progress-label">
+        <span>Weekly Progress</span>
+        <span class="progress-count" id="progressCount">0 / 0</span>
       </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('1')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
+      <div class="progress-track">
+        <div class="progress-bar" id="progressBar" style="width:0%"></div>
       </div>
     </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('1')"></textarea>
+
+    <!-- Warning if < 15 contacts -->
+    <div id="warningBanner" class="warning-banner">
+      ⚠ Only <span id="warningCount">0</span> eligible contacts found this week (target is 15).
     </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_1" onchange="autoSave('1')">
-      <label for="bad_1">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('1','Mona Tobar','469-562-2818')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
-  </div><div class="contact-card" data-contact-id="5">
-    <div class="contact-header">
-      <div class="contact-name">Toby Trohkimoinen</div>
-      <a href="tel:901-356-3398" class="call-button">📞 Call 901-356-3398</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('5')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('5')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('5')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_5" onchange="autoSave('5')">
-      <label for="bad_5">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('5','Toby Trohkimoinen','901-356-3398')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
-  </div><div class="contact-card" data-contact-id="6">
-    <div class="contact-header">
-      <div class="contact-name">Sally Baker</div>
-      <a href="tel:901-258-4775" class="call-button">📞 Call 901-258-4775</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('6')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('6')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('6')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_6" onchange="autoSave('6')">
-      <label for="bad_6">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('6','Sally Baker','901-258-4775')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
-  </div><div class="contact-card" data-contact-id="16">
-    <div class="contact-header">
-      <div class="contact-name">Kevin Figg</div>
-      <a href="tel:901-412-0823" class="call-button">📞 Call 901-412-0823</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('16')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('16')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('16')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_16" onchange="autoSave('16')">
-      <label for="bad_16">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('16','Kevin Figg','901-412-0823')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
-  </div><div class="contact-card" data-contact-id="30">
-    <div class="contact-header">
-      <div class="contact-name">Antonia Steele</div>
-      <a href="tel:870-316-3317" class="call-button">📞 Call 870-316-3317</a>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Outcome</label>
-        <select class="outcome" onchange="autoSave('30')">
-          <option value="">-- Select --</option>
-          <option>Reached - Interested</option>
-          <option>Reached - Not Interested</option>
-          <option>Reached - Call Back</option>
-          <option>No Answer</option>
-          <option>Voicemail Left</option>
-          <option>Wrong Number</option>
-          <option>Disconnected</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Interest Level</label>
-        <select class="interest" onchange="autoSave('30')">
-          <option value="">-- Select --</option>
-          <option>Hot</option>
-          <option>Warm</option>
-          <option>Cold</option>
-          <option>N/A</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <textarea class="notes" placeholder="What happened on this call..." oninput="autoSave('30')"></textarea>
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" class="bad-number" id="bad_30" onchange="autoSave('30')">
-      <label for="bad_30">Bad number / wrong person</label>
-    </div>
-    <button class="save-button" onclick="saveCall('30','Antonia Steele','870-316-3317')">Save this call</button>
-    <div class="success-message"></div>
-    <div class="error-message"></div>
+
+    <!-- Contact Groups rendered here -->
+    <div id="contactGroups"></div>
   </div>
 </div>
 
-</div>
 <script>
-const WEBHOOK_URL = 'https://optimsolutions.app.n8n.cloud/webhook/receive-call-results';
-const callerName = '';
-const TOTAL = 15;
+// ============================================================
+// CONFIGURATION — Replace this URL after deploying Apps Script
+// ============================================================
+const API_URL = 'https://script.google.com/macros/s/AKfycbxvGjaORN2swU5-q5YMhm143qq90rTkJ1ELF9XjAtCZgNYpX7R7oGN_xMtNKDWbqiqC/exec';
 
-function autoSave(id) {
-  const card = document.querySelector('[data-contact-id="'+id+'"');
-  if (!card) return;
-  localStorage.setItem('contact_'+id, JSON.stringify({
-    outcome: card.querySelector('.outcome').value,
-    interest: card.querySelector('.interest').value,
-    badNumber: card.querySelector('.bad-number').checked,
-    notes: card.querySelector('.notes').value
-  }));
+// ============================================================
+// STATE
+// ============================================================
+let weekData = null;
+
+// ============================================================
+// LOAD CONTACTS
+// ============================================================
+async function loadContacts() {
+  const loading = document.getElementById('loadingScreen');
+  const errorScreen = document.getElementById('errorScreen');
+  const main = document.getElementById('mainContent');
+  
+  loading.style.display = 'block';
+  errorScreen.style.display = 'none';
+  main.style.display = 'none';
+  
+  try {
+    const res = await fetch(API_URL + '?action=getContacts');
+    if (!res.ok) throw new Error('Server returned ' + res.status);
+    
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Unknown error');
+    
+    weekData = data;
+    renderPage(data);
+    
+    loading.style.display = 'none';
+    main.style.display = 'block';
+    
+  } catch (err) {
+    loading.style.display = 'none';
+    errorScreen.style.display = 'block';
+    document.getElementById('errorMessage').textContent = err.message;
+  }
 }
 
-function restoreData() {
-  document.querySelectorAll('.contact-card').forEach(card => {
-    const id = card.dataset.contactId;
-    const saved = localStorage.getItem('contact_'+id);
-    if (saved) {
-      try {
-        const d = JSON.parse(saved);
-        card.querySelector('.outcome').value = d.outcome || '';
-        card.querySelector('.interest').value = d.interest || '';
-        card.querySelector('.bad-number').checked = d.badNumber || false;
-        card.querySelector('.notes').value = d.notes || '';
-      } catch(e) {}
+// ============================================================
+// RENDER
+// ============================================================
+function renderPage(data) {
+  // Subtitle
+  const callerLabel = data.callerName || 'Unassigned';
+  document.getElementById('subtitle').textContent = 
+    'Week ' + data.weekNumber + ' — Caller: ' + callerLabel;
+  
+  // Warning
+  if (data.totalContacts < 15) {
+    const warn = document.getElementById('warningBanner');
+    warn.style.display = 'block';
+    document.getElementById('warningCount').textContent = data.totalContacts;
+  }
+  
+  // Group contacts by type
+  const groupOrder = ['Sponsor', 'Recent Attendee', 'Lapsed'];
+  const groupLabels = { 'Sponsor': 'Sponsors', 'Recent Attendee': 'Recent Attendees', 'Lapsed': 'Lapsed Members' };
+  const groups = {};
+  
+  for (const c of data.contacts) {
+    if (!groups[c.type]) groups[c.type] = [];
+    groups[c.type].push(c);
+  }
+  
+  const container = document.getElementById('contactGroups');
+  container.innerHTML = '';
+  
+  for (const type of groupOrder) {
+    const list = groups[type];
+    if (!list || list.length === 0) continue;
+    
+    const section = document.createElement('div');
+    section.className = 'group';
+    
+    section.innerHTML = '<div class="group-title">' +
+      (groupLabels[type] || type) +
+      ' <span class="badge">' + list.length + '</span></div>';
+    
+    for (const contact of list) {
+      section.appendChild(createCard(contact));
     }
-  });
+    
+    container.appendChild(section);
+  }
+  
+  // Handle any unrecognized types
+  const knownTypes = new Set(groupOrder);
+  const otherContacts = data.contacts.filter(c => !knownTypes.has(c.type));
+  if (otherContacts.length > 0) {
+    const section = document.createElement('div');
+    section.className = 'group';
+    section.innerHTML = '<div class="group-title">Other <span class="badge">' + otherContacts.length + '</span></div>';
+    for (const contact of otherContacts) {
+      section.appendChild(createCard(contact));
+    }
+    container.appendChild(section);
+  }
+  
   updateProgress();
 }
 
-async function saveCall(id, name, phone) {
-  const card = document.querySelector('[data-contact-id="'+id+'"');
+// ============================================================
+// CREATE CARD
+// ============================================================
+function createCard(contact) {
+  const card = document.createElement('div');
+  card.className = 'contact-card' + (contact.saved ? ' completed' : '');
+  card.setAttribute('data-contact-id', contact.id);
+  
+  const dialPhone = contact.phone.replace(/\D/g, '');
+  const escapedName = contact.name.replace(/'/g, "\\'");
+  
+  // Build saved data tags
+  let savedTags = '';
+  let savedNotes = '';
+  if (contact.saved && contact.savedData) {
+    const sd = contact.savedData;
+    if (sd.outcome) savedTags += '<span class="completed-tag">' + escapeHtml(sd.outcome) + '</span>';
+    if (sd.interest) {
+      const cls = sd.interest.toLowerCase() === 'hot' ? 'interest-hot' : 
+                  sd.interest.toLowerCase() === 'warm' ? 'interest-warm' : 
+                  sd.interest.toLowerCase() === 'cold' ? 'interest-cold' : '';
+      savedTags += '<span class="completed-tag ' + cls + '">' + escapeHtml(sd.interest) + '</span>';
+    }
+    if (sd.notes) savedNotes = '<div class="completed-notes">"' + escapeHtml(sd.notes) + '"</div>';
+  }
+  
+  card.innerHTML = 
+    '<div class="contact-header">' +
+      '<div class="contact-name">' + escapeHtml(contact.name) + '<span class="completed-check"> ✓</span></div>' +
+      '<a href="tel:' + dialPhone + '" class="call-button">📞 ' + escapeHtml(contact.phone) + '</a>' +
+    '</div>' +
+    
+    // Completed summary (visible when saved)
+    '<div class="completed-summary">' +
+      '<div class="completed-tags">' + savedTags + '</div>' +
+      savedNotes +
+      '<button class="edit-button" onclick="editCard(\'' + contact.id + '\')">Edit response or call back</button>' +
+    '</div>' +
+    
+    // Form area (hidden when saved, unless editing)
+    '<div class="form-area">' +
+      '<div class="form-row">' +
+        '<div class="form-group">' +
+          '<label>Outcome</label>' +
+          '<select class="outcome">' +
+            '<option value="">-- Select --</option>' +
+            '<option>Reached - Interested</option>' +
+            '<option>Reached - Not Interested</option>' +
+            '<option>Reached - Call Back</option>' +
+            '<option>No Answer</option>' +
+            '<option>Voicemail Left</option>' +
+            '<option>Wrong Number</option>' +
+            '<option>Disconnected</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="form-group">' +
+          '<label>Interest Level</label>' +
+          '<select class="interest">' +
+            '<option value="">-- Select --</option>' +
+            '<option>Hot</option>' +
+            '<option>Warm</option>' +
+            '<option>Cold</option>' +
+            '<option>N/A</option>' +
+          '</select>' +
+        '</div>' +
+      '</div>' +
+      '<div class="form-group">' +
+        '<label>Notes</label>' +
+        '<textarea class="notes" placeholder="What happened on this call..."></textarea>' +
+      '</div>' +
+      '<div class="checkbox-group">' +
+        '<input type="checkbox" class="bad-number" id="bad_' + contact.id + '">' +
+        '<label for="bad_' + contact.id + '">Bad number / wrong person</label>' +
+      '</div>' +
+      '<button class="save-button" onclick="saveCall(\'' + contact.id + '\', \'' + escapedName + '\', \'' + contact.phone.replace(/'/g, "\\'") + '\')">Save this call</button>' +
+      '<div class="save-message success"></div>' +
+      '<div class="save-message error"></div>' +
+    '</div>';
+  
+  // Pre-fill form if editing a saved contact
+  if (contact.saved && contact.savedData) {
+    const sd = contact.savedData;
+    setTimeout(() => {
+      const outcomeEl = card.querySelector('.outcome');
+      const interestEl = card.querySelector('.interest');
+      const notesEl = card.querySelector('.notes');
+      if (outcomeEl && sd.outcome) outcomeEl.value = sd.outcome;
+      if (interestEl && sd.interest) interestEl.value = sd.interest;
+      if (notesEl && sd.notes) notesEl.value = sd.notes;
+    }, 0);
+  }
+  
+  return card;
+}
+
+// ============================================================
+// EDIT CARD (re-open form for completed contact)
+// ============================================================
+function editCard(contactId) {
+  const card = document.querySelector('[data-contact-id="' + contactId + '"]');
   if (!card) return;
+  card.classList.remove('completed');
+  
+  // Change save button text
   const btn = card.querySelector('.save-button');
-  const ok = card.querySelector('.success-message');
-  const err = card.querySelector('.error-message');
-  btn.disabled = true; btn.textContent = 'Saving...';
-  ok.style.display = 'none'; err.style.display = 'none';
+  if (btn) btn.textContent = 'Update this call';
+}
+
+// ============================================================
+// SAVE CALL
+// ============================================================
+async function saveCall(contactId, contactName, phone) {
+  const card = document.querySelector('[data-contact-id="' + contactId + '"]');
+  if (!card) return;
+  
+  const btn = card.querySelector('.save-button');
+  const successMsg = card.querySelector('.save-message.success');
+  const errorMsg = card.querySelector('.save-message.error');
+  const outcome = card.querySelector('.outcome').value;
+  const interest = card.querySelector('.interest').value;
+  const notes = card.querySelector('.notes').value;
+  const badNumber = card.querySelector('.bad-number').checked;
+  
+  // Validate
+  if (!outcome) {
+    errorMsg.textContent = 'Please select an outcome before saving.';
+    errorMsg.style.display = 'block';
+    setTimeout(() => { errorMsg.style.display = 'none'; }, 3000);
+    return;
+  }
+  
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+  successMsg.style.display = 'none';
+  errorMsg.style.display = 'none';
+  
   try {
-    const res = await fetch(WEBHOOK_URL, {
+    const res = await fetch(API_URL, {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      headers: { 'Content-Type': 'text/plain' }, // Apps Script needs text/plain to avoid CORS preflight
       body: JSON.stringify({
-        contactId: id, contactName: name, phone: phone,
-        callerName: callerName,
-        outcome: card.querySelector('.outcome').value,
-        interest: card.querySelector('.interest').value,
-        badNumber: card.querySelector('.bad-number').checked,
-        notes: card.querySelector('.notes').value,
+        contactId: contactId,
+        contactName: contactName,
+        phone: phone,
+        callerName: weekData ? weekData.callerName : '',
+        outcome: outcome,
+        interest: interest,
+        badNumber: badNumber,
+        notes: notes,
         timestamp: new Date().toISOString()
       })
     });
-    if (res.ok) {
-      ok.style.display = 'block'; ok.textContent = '✅ Saved!';
-      localStorage.setItem('saved_'+id, 'true');
+    
+    const data = await res.json();
+    
+    if (data.success) {
+      // Update local state
+      if (weekData) {
+        const contact = weekData.contacts.find(c => c.id === contactId);
+        if (contact) {
+          contact.saved = true;
+          contact.savedData = { outcome, interest, notes };
+          weekData.savedCount = weekData.contacts.filter(c => c.saved).length;
+          weekData.allComplete = weekData.savedCount >= weekData.totalContacts;
+        }
+      }
+      
+      // Re-render this card as completed
+      const newCard = createCard(weekData.contacts.find(c => c.id === contactId));
+      card.replaceWith(newCard);
+      
       updateProgress();
-      setTimeout(() => { ok.style.display='none'; }, 3000);
-    } else throw new Error();
-  } catch(e) {
-    err.style.display = 'block'; err.textContent = '❌ Failed to save. Try again.';
-  } finally { btn.disabled = false; btn.textContent = 'Save this call'; }
-}
-
-function updateProgress() {
-  let saved = 0;
-  for (let i = 0; i < localStorage.length; i++) {
-    if (localStorage.key(i).startsWith('saved_')) saved++;
+    } else {
+      throw new Error(data.error || 'Save failed');
+    }
+    
+  } catch (err) {
+    errorMsg.textContent = 'Failed to save: ' + err.message;
+    errorMsg.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Save this call';
   }
-  const bar = document.getElementById('progressBar');
-  const pct = Math.round(saved / TOTAL * 100);
-  bar.style.width = pct + '%';
-  bar.textContent = saved + ' / ' + TOTAL + ' Completed';
 }
 
-restoreData();
+// ============================================================
+// UPDATE PROGRESS
+// ============================================================
+function updateProgress() {
+  if (!weekData) return;
+  
+  const saved = weekData.savedCount || 0;
+  const total = weekData.totalContacts || 0;
+  const pct = total > 0 ? Math.round(saved / total * 100) : 0;
+  
+  document.getElementById('progressCount').textContent = saved + ' / ' + total;
+  document.getElementById('progressBar').style.width = pct + '%';
+  
+  // Show all-complete banner
+  const banner = document.getElementById('allCompleteBanner');
+  if (saved >= total && total > 0) {
+    banner.classList.add('visible');
+  } else {
+    banner.classList.remove('visible');
+  }
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadContacts();
 </script>
 </body>
 </html>
