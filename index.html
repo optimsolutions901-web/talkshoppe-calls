@@ -7,12 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   REPLACE THIS URL after deploying your Google Apps Script
-   ============================================================ */
 :root {
-  --api-url: 'https://script.google.com/macros/s/AKfycbxvGjaORN2swU5-q5YMhm143qq90rTkJ1ELF9XjAtCZgNYpX7R7oGN_xMtNKDWbqiqC/exec';
-  
   --bg: #F4F1EC;
   --surface: #FFFFFF;
   --surface-muted: #F9F8F6;
@@ -52,16 +47,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.container {
-  max-width: 720px;
-  margin: 0 auto;
-}
+.container { max-width: 720px; margin: 0 auto; }
 
 /* ---- Header ---- */
-.header {
-  text-align: center;
-  margin-bottom: 32px;
-}
+.header { text-align: center; margin-bottom: 32px; }
 
 .header h1 {
   font-family: 'Fraunces', serif;
@@ -72,11 +61,7 @@ body {
   letter-spacing: -0.5px;
 }
 
-.header .subtitle {
-  font-size: 14px;
-  color: var(--text-muted);
-  font-weight: 400;
-}
+.header .subtitle { font-size: 14px; color: var(--text-muted); font-weight: 400; }
 
 /* ---- Progress ---- */
 .progress-container {
@@ -98,11 +83,7 @@ body {
   color: var(--text-secondary);
 }
 
-.progress-count {
-  font-weight: 700;
-  color: var(--text);
-  font-size: 15px;
-}
+.progress-count { font-weight: 700; color: var(--text); font-size: 15px; }
 
 .progress-track {
   background: var(--border-light);
@@ -132,10 +113,7 @@ body {
 
 .all-complete.visible { display: block; }
 
-.all-complete .check-icon {
-  font-size: 40px;
-  margin-bottom: 8px;
-}
+.all-complete .check-icon { font-size: 40px; margin-bottom: 8px; }
 
 .all-complete h2 {
   font-family: 'Fraunces', serif;
@@ -144,15 +122,10 @@ body {
   margin-bottom: 4px;
 }
 
-.all-complete p {
-  font-size: 14px;
-  color: var(--text-secondary);
-}
+.all-complete p { font-size: 14px; color: var(--text-secondary); }
 
 /* ---- Group Sections ---- */
-.group {
-  margin-bottom: 28px;
-}
+.group { margin-bottom: 28px; }
 
 .group-title {
   font-family: 'Fraunces', serif;
@@ -199,9 +172,7 @@ body {
   box-shadow: none;
 }
 
-.contact-card.completed .contact-name {
-  color: var(--text-muted);
-}
+.contact-card.completed .contact-name { color: var(--text-muted); }
 
 .contact-card.completed .call-button {
   background: var(--border-light);
@@ -209,9 +180,7 @@ body {
   pointer-events: none;
 }
 
-.contact-card.completed .form-area {
-  display: none;
-}
+.contact-card.completed .form-area { display: none; }
 
 .completed-summary {
   display: none;
@@ -220,9 +189,7 @@ body {
   margin-top: 12px;
 }
 
-.contact-card.completed .completed-summary {
-  display: block;
-}
+.contact-card.completed .completed-summary { display: block; }
 
 .completed-tags {
   display: flex;
@@ -240,9 +207,9 @@ body {
   color: var(--green);
 }
 
-.completed-tag.interest-hot { background: var(--red-light); color: var(--red); }
-.completed-tag.interest-warm { background: var(--yellow-light); color: var(--yellow); }
-.completed-tag.interest-cold { background: var(--blue-light); color: var(--blue); }
+.completed-tag.interest-hot  { background: var(--red-light);    color: var(--red);    }
+.completed-tag.interest-warm { background: var(--yellow-light);  color: var(--yellow); }
+.completed-tag.interest-cold { background: var(--blue-light);    color: var(--blue);   }
 
 .completed-notes {
   font-size: 13px;
@@ -276,10 +243,14 @@ body {
   gap: 10px;
 }
 
-.contact-name {
-  font-weight: 700;
-  font-size: 17px;
-  color: var(--text);
+.contact-name { font-weight: 700; font-size: 17px; color: var(--text); }
+
+/* NEW: CC Date shown under the name */
+.contact-cc-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  font-weight: 400;
 }
 
 .completed-check {
@@ -303,6 +274,7 @@ body {
   padding: 10px 20px;
   border-radius: var(--radius);
   transition: background 0.2s;
+  white-space: nowrap;
 }
 
 .call-button:hover { background: var(--accent-hover); }
@@ -366,10 +338,7 @@ body {
   accent-color: var(--accent);
 }
 
-.checkbox-group label {
-  font-size: 13px;
-  color: var(--text-secondary);
-}
+.checkbox-group label { font-size: 13px; color: var(--text-secondary); }
 
 /* ---- Save Button ---- */
 .save-button {
@@ -398,21 +367,11 @@ body {
   display: none;
 }
 
-.save-message.success {
-  background: var(--green-light);
-  color: var(--green);
-}
-
-.save-message.error {
-  background: var(--red-light);
-  color: var(--red);
-}
+.save-message.success { background: var(--green-light); color: var(--green); }
+.save-message.error   { background: var(--red-light);   color: var(--red);   }
 
 /* ---- Loading State ---- */
-.loading-screen {
-  text-align: center;
-  padding: 80px 20px;
-}
+.loading-screen { text-align: center; padding: 80px 20px; }
 
 .spinner {
   width: 36px;
@@ -426,10 +385,7 @@ body {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.loading-screen p {
-  font-size: 14px;
-  color: var(--text-muted);
-}
+.loading-screen p { font-size: 14px; color: var(--text-muted); }
 
 /* ---- Error State ---- */
 .error-screen {
@@ -438,17 +394,9 @@ body {
   display: none;
 }
 
-.error-screen h2 {
-  font-family: 'Fraunces', serif;
-  color: var(--red);
-  margin-bottom: 8px;
-}
+.error-screen h2 { font-family: 'Fraunces', serif; color: var(--red); margin-bottom: 8px; }
 
-.error-screen p {
-  color: var(--text-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
+.error-screen p { color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
 
 .retry-button {
   background: var(--accent);
@@ -526,9 +474,9 @@ body {
       </div>
     </div>
 
-    <!-- Warning if < 15 contacts -->
+    <!-- Warning if < 9 contacts (updated from 15) -->
     <div id="warningBanner" class="warning-banner">
-      ⚠ Only <span id="warningCount">0</span> eligible contacts found this week (target is 15).
+      ⚠ Only <span id="warningCount">0</span> eligible contacts found this week (target is 9).
     </div>
 
     <!-- Contact Groups rendered here -->
@@ -551,13 +499,13 @@ let weekData = null;
 // LOAD CONTACTS
 // ============================================================
 async function loadContacts() {
-  const loading = document.getElementById('loadingScreen');
+  const loading     = document.getElementById('loadingScreen');
   const errorScreen = document.getElementById('errorScreen');
-  const main = document.getElementById('mainContent');
+  const main        = document.getElementById('mainContent');
   
-  loading.style.display = 'block';
+  loading.style.display     = 'block';
   errorScreen.style.display = 'none';
-  main.style.display = 'none';
+  main.style.display        = 'none';
   
   try {
     const res = await fetch(API_URL + '?action=getContacts');
@@ -570,10 +518,10 @@ async function loadContacts() {
     renderPage(data);
     
     loading.style.display = 'none';
-    main.style.display = 'block';
+    main.style.display    = 'block';
     
   } catch (err) {
-    loading.style.display = 'none';
+    loading.style.display     = 'none';
     errorScreen.style.display = 'block';
     document.getElementById('errorMessage').textContent = err.message;
   }
@@ -583,22 +531,20 @@ async function loadContacts() {
 // RENDER
 // ============================================================
 function renderPage(data) {
-  // Subtitle
   const callerLabel = data.callerName || 'Unassigned';
-  document.getElementById('subtitle').textContent = 
+  document.getElementById('subtitle').textContent =
     'Week ' + data.weekNumber + ' — Caller: ' + callerLabel;
   
-  // Warning
-  if (data.totalContacts < 15) {
+  // Warning threshold is now 9 (not 15)
+  if (data.totalContacts < 9) {
     const warn = document.getElementById('warningBanner');
     warn.style.display = 'block';
     document.getElementById('warningCount').textContent = data.totalContacts;
   }
   
-  // Group contacts by type
-  const groupOrder = ['Sponsor', 'Recent Attendee', 'Lapsed'];
+  const groupOrder  = ['Sponsor', 'Recent Attendee', 'Lapsed'];
   const groupLabels = { 'Sponsor': 'Sponsors', 'Recent Attendee': 'Recent Attendees', 'Lapsed': 'Lapsed Members' };
-  const groups = {};
+  const groups      = {};
   
   for (const c of data.contacts) {
     if (!groups[c.type]) groups[c.type] = [];
@@ -612,12 +558,13 @@ function renderPage(data) {
     const list = groups[type];
     if (!list || list.length === 0) continue;
     
-    const section = document.createElement('div');
-    section.className = 'group';
-    
-    section.innerHTML = '<div class="group-title">' +
-      (groupLabels[type] || type) +
-      ' <span class="badge">' + list.length + '</span></div>';
+    const section       = document.createElement('div');
+    section.className   = 'group';
+    section.innerHTML   =
+      '<div class="group-title">' +
+        (groupLabels[type] || type) +
+        ' <span class="badge">' + list.length + '</span>' +
+      '</div>';
     
     for (const contact of list) {
       section.appendChild(createCard(contact));
@@ -627,15 +574,13 @@ function renderPage(data) {
   }
   
   // Handle any unrecognized types
-  const knownTypes = new Set(groupOrder);
+  const knownTypes    = new Set(groupOrder);
   const otherContacts = data.contacts.filter(c => !knownTypes.has(c.type));
   if (otherContacts.length > 0) {
-    const section = document.createElement('div');
+    const section     = document.createElement('div');
     section.className = 'group';
     section.innerHTML = '<div class="group-title">Other <span class="badge">' + otherContacts.length + '</span></div>';
-    for (const contact of otherContacts) {
-      section.appendChild(createCard(contact));
-    }
+    for (const contact of otherContacts) section.appendChild(createCard(contact));
     container.appendChild(section);
   }
   
@@ -650,38 +595,52 @@ function createCard(contact) {
   card.className = 'contact-card' + (contact.saved ? ' completed' : '');
   card.setAttribute('data-contact-id', contact.id);
   
-  const dialPhone = contact.phone.replace(/\D/g, '');
+  const dialPhone   = contact.phone.replace(/\D/g, '');
   const escapedName = contact.name.replace(/'/g, "\\'");
+
+  // NEW: Format the CC Date for display (e.g. "Added to CC: Jan 15, 2023")
+  let ccDateHtml = '';
+  if (contact.ccDate && contact.ccDate !== '1900-01-01') {
+    const parts = contact.ccDate.split('-');
+    if (parts.length === 3) {
+      const d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      if (!isNaN(d.getTime())) {
+        const formatted = d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        ccDateHtml = '<div class="contact-cc-date">Added to Constant Contact: ' + formatted + '</div>';
+      }
+    }
+  }
   
   // Build saved data tags
-  let savedTags = '';
+  let savedTags  = '';
   let savedNotes = '';
   if (contact.saved && contact.savedData) {
     const sd = contact.savedData;
     if (sd.outcome) savedTags += '<span class="completed-tag">' + escapeHtml(sd.outcome) + '</span>';
     if (sd.interest) {
-      const cls = sd.interest.toLowerCase() === 'hot' ? 'interest-hot' : 
-                  sd.interest.toLowerCase() === 'warm' ? 'interest-warm' : 
+      const cls = sd.interest.toLowerCase() === 'hot'  ? 'interest-hot'  :
+                  sd.interest.toLowerCase() === 'warm' ? 'interest-warm' :
                   sd.interest.toLowerCase() === 'cold' ? 'interest-cold' : '';
       savedTags += '<span class="completed-tag ' + cls + '">' + escapeHtml(sd.interest) + '</span>';
     }
     if (sd.notes) savedNotes = '<div class="completed-notes">"' + escapeHtml(sd.notes) + '"</div>';
   }
   
-  card.innerHTML = 
+  card.innerHTML =
     '<div class="contact-header">' +
-      '<div class="contact-name">' + escapeHtml(contact.name) + '<span class="completed-check"> ✓</span></div>' +
+      '<div>' +
+        '<div class="contact-name">' + escapeHtml(contact.name) + '<span class="completed-check"> ✓</span></div>' +
+        ccDateHtml +   // NEW — CC date shown under the name
+      '</div>' +
       '<a href="tel:' + dialPhone + '" class="call-button">📞 ' + escapeHtml(contact.phone) + '</a>' +
     '</div>' +
     
-    // Completed summary (visible when saved)
     '<div class="completed-summary">' +
       '<div class="completed-tags">' + savedTags + '</div>' +
       savedNotes +
       '<button class="edit-button" onclick="editCard(\'' + contact.id + '\')">Edit response or call back</button>' +
     '</div>' +
     
-    // Form area (hidden when saved, unless editing)
     '<div class="form-area">' +
       '<div class="form-row">' +
         '<div class="form-group">' +
@@ -721,16 +680,15 @@ function createCard(contact) {
       '<div class="save-message error"></div>' +
     '</div>';
   
-  // Pre-fill form if editing a saved contact
   if (contact.saved && contact.savedData) {
     const sd = contact.savedData;
     setTimeout(() => {
-      const outcomeEl = card.querySelector('.outcome');
+      const outcomeEl  = card.querySelector('.outcome');
       const interestEl = card.querySelector('.interest');
-      const notesEl = card.querySelector('.notes');
-      if (outcomeEl && sd.outcome) outcomeEl.value = sd.outcome;
-      if (interestEl && sd.interest) interestEl.value = sd.interest;
-      if (notesEl && sd.notes) notesEl.value = sd.notes;
+      const notesEl    = card.querySelector('.notes');
+      if (outcomeEl  && sd.outcome)   outcomeEl.value  = sd.outcome;
+      if (interestEl && sd.interest)  interestEl.value = sd.interest;
+      if (notesEl    && sd.notes)     notesEl.value    = sd.notes;
     }, 0);
   }
   
@@ -738,14 +696,12 @@ function createCard(contact) {
 }
 
 // ============================================================
-// EDIT CARD (re-open form for completed contact)
+// EDIT CARD
 // ============================================================
 function editCard(contactId) {
   const card = document.querySelector('[data-contact-id="' + contactId + '"]');
   if (!card) return;
   card.classList.remove('completed');
-  
-  // Change save button text
   const btn = card.querySelector('.save-button');
   if (btn) btn.textContent = 'Update this call';
 }
@@ -757,71 +713,67 @@ async function saveCall(contactId, contactName, phone) {
   const card = document.querySelector('[data-contact-id="' + contactId + '"]');
   if (!card) return;
   
-  const btn = card.querySelector('.save-button');
+  const btn        = card.querySelector('.save-button');
   const successMsg = card.querySelector('.save-message.success');
-  const errorMsg = card.querySelector('.save-message.error');
-  const outcome = card.querySelector('.outcome').value;
-  const interest = card.querySelector('.interest').value;
-  const notes = card.querySelector('.notes').value;
-  const badNumber = card.querySelector('.bad-number').checked;
+  const errorMsg   = card.querySelector('.save-message.error');
+  const outcome    = card.querySelector('.outcome').value;
+  const interest   = card.querySelector('.interest').value;
+  const notes      = card.querySelector('.notes').value;
+  const badNumber  = card.querySelector('.bad-number').checked;
   
-  // Validate
   if (!outcome) {
-    errorMsg.textContent = 'Please select an outcome before saving.';
+    errorMsg.textContent  = 'Please select an outcome before saving.';
     errorMsg.style.display = 'block';
     setTimeout(() => { errorMsg.style.display = 'none'; }, 3000);
     return;
   }
   
-  btn.disabled = true;
-  btn.textContent = 'Saving...';
+  btn.disabled     = true;
+  btn.textContent  = 'Saving...';
   successMsg.style.display = 'none';
-  errorMsg.style.display = 'none';
+  errorMsg.style.display   = 'none';
   
   try {
     const res = await fetch(API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain' }, // Apps Script needs text/plain to avoid CORS preflight
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({
-        contactId: contactId,
+        contactId:   contactId,
         contactName: contactName,
-        phone: phone,
-        callerName: weekData ? weekData.callerName : '',
-        outcome: outcome,
-        interest: interest,
-        badNumber: badNumber,
-        notes: notes,
-        timestamp: new Date().toISOString()
+        phone:       phone,
+        callerName:  weekData ? weekData.callerName : '',
+        outcome:     outcome,
+        interest:    interest,
+        badNumber:   badNumber,
+        notes:       notes,
+        timestamp:   new Date().toISOString()
       })
     });
     
     const data = await res.json();
     
     if (data.success) {
-      // Update local state
       if (weekData) {
         const contact = weekData.contacts.find(c => c.id === contactId);
         if (contact) {
-          contact.saved = true;
+          contact.saved     = true;
           contact.savedData = { outcome, interest, notes };
-          weekData.savedCount = weekData.contacts.filter(c => c.saved).length;
+          weekData.savedCount  = weekData.contacts.filter(c => c.saved).length;
           weekData.allComplete = weekData.savedCount >= weekData.totalContacts;
         }
       }
       
-      // Re-render this card as completed
       const newCard = createCard(weekData.contacts.find(c => c.id === contactId));
       card.replaceWith(newCard);
-      
       updateProgress();
     } else {
       throw new Error(data.error || 'Save failed');
     }
     
   } catch (err) {
-    errorMsg.textContent = 'Failed to save: ' + err.message;
+    errorMsg.textContent   = 'Failed to save: ' + err.message;
     errorMsg.style.display = 'block';
-    btn.disabled = false;
+    btn.disabled    = false;
     btn.textContent = 'Save this call';
   }
 }
@@ -832,20 +784,16 @@ async function saveCall(contactId, contactName, phone) {
 function updateProgress() {
   if (!weekData) return;
   
-  const saved = weekData.savedCount || 0;
-  const total = weekData.totalContacts || 0;
-  const pct = total > 0 ? Math.round(saved / total * 100) : 0;
+  const saved  = weekData.savedCount     || 0;
+  const total  = weekData.totalContacts  || 0;
+  const pct    = total > 0 ? Math.round(saved / total * 100) : 0;
   
   document.getElementById('progressCount').textContent = saved + ' / ' + total;
-  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressBar').style.width   = pct + '%';
   
-  // Show all-complete banner
   const banner = document.getElementById('allCompleteBanner');
-  if (saved >= total && total > 0) {
-    banner.classList.add('visible');
-  } else {
-    banner.classList.remove('visible');
-  }
+  if (saved >= total && total > 0) banner.classList.add('visible');
+  else banner.classList.remove('visible');
 }
 
 // ============================================================
