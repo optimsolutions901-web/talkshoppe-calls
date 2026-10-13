@@ -245,7 +245,7 @@ body {
 
 .contact-name { font-weight: 700; font-size: 17px; color: var(--text); }
 
-/* NEW: CC Date shown under the name */
+/* Business / last sign-in shown under the name */
 .contact-cc-date {
   font-size: 12px;
   color: var(--text-muted);
@@ -474,9 +474,9 @@ body {
       </div>
     </div>
 
-    <!-- Warning if < 9 contacts (updated from 15) -->
+    <!-- Warning if < 15 contacts -->
     <div id="warningBanner" class="warning-banner">
-      ⚠ Only <span id="warningCount">0</span> eligible contacts found this week (target is 9).
+      ⚠ Only <span id="warningCount">0</span> eligible contacts found this week (target is 15).
     </div>
 
     <!-- Contact Groups rendered here -->
@@ -535,15 +535,14 @@ function renderPage(data) {
   document.getElementById('subtitle').textContent =
     'Week ' + data.weekNumber + ' — Caller: ' + callerLabel;
   
-  // Warning threshold is now 9 (not 15)
-  if (data.totalContacts < 9) {
+  if (data.totalContacts < 15) {
     const warn = document.getElementById('warningBanner');
     warn.style.display = 'block';
     document.getElementById('warningCount').textContent = data.totalContacts;
   }
   
   const groupOrder  = ['Sponsor', 'Recent Attendee', 'Lapsed'];
-  const groupLabels = { 'Sponsor': 'Sponsors', 'Recent Attendee': 'Recent Attendees', 'Lapsed': 'Lapsed Members' };
+  const groupLabels = { 'Sponsor': 'Sponsors', 'Recent Attendee': 'Recent Attendees (last 3 months)', 'Lapsed': 'Lapsed (3–18 months)' };
   const groups      = {};
   
   for (const c of data.contacts) {
@@ -598,19 +597,21 @@ function createCard(contact) {
   const dialPhone   = contact.phone.replace(/\D/g, '');
   const escapedName = contact.name.replace(/'/g, "\\'");
 
-  // NEW: Format the CC Date for display (e.g. "Added to CC: Jan 15, 2023")
+  // Business (sponsors) or last WordPress sign-in date (attendees)
   let ccDateHtml = '';
-  if (contact.ccDate && contact.ccDate !== '1900-01-01') {
-    const parts = contact.ccDate.split('-');
+  const metaBits = [];
+  if (contact.business) metaBits.push(escapeHtml(contact.business));
+  if (contact.type !== 'Sponsor' && contact.lastAttended) {
+    const parts = contact.lastAttended.split('-');
     if (parts.length === 3) {
       const d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
       if (!isNaN(d.getTime())) {
-        const formatted = d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-        ccDateHtml = '<div class="contact-cc-date">Added to Constant Contact: ' + formatted + '</div>';
+        metaBits.push('Last signed in ' + d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }));
       }
     }
   }
-  
+  if (metaBits.length) ccDateHtml = '<div class="contact-cc-date">' + metaBits.join(' · ') + '</div>';
+
   // Build saved data tags
   let savedTags  = '';
   let savedNotes = '';
@@ -630,7 +631,7 @@ function createCard(contact) {
     '<div class="contact-header">' +
       '<div>' +
         '<div class="contact-name">' + escapeHtml(contact.name) + '<span class="completed-check"> ✓</span></div>' +
-        ccDateHtml +   // NEW — CC date shown under the name
+        ccDateHtml +
       '</div>' +
       '<a href="tel:' + dialPhone + '" class="call-button">📞 ' + escapeHtml(contact.phone) + '</a>' +
     '</div>' +
